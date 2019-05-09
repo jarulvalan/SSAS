@@ -1,0 +1,117 @@
+{
+  "name": "RMA",
+  "compatibilityLevel": 1400,
+  "model": {
+    "name": "RMA",
+    "culture": "en-US",
+    "dataSources": [
+      {
+        "type": "structured",
+        "name": "Odbc/dsn=RMA",
+        "connectionDetails": {
+          "protocol": "odbc",
+          "address": {
+            "options": {
+              "dsn": "RMA"
+            }
+          },
+          "authentication": null,
+          "query": null
+        },
+        "options": {
+          "hierarchicalNavigation": true
+        },
+        "credential": {
+          "AuthenticationKind": "UsernamePassword",
+          "Username": "svcpbirmanp-soi@kaiserpermanente.onmicrosoft.com"
+        }
+      }
+    ],
+    "tables": [
+      {
+        "name": "hivesampletable",
+        "columns": [
+          {
+            "name": "clientid",
+            "dataType": "string",
+            "sourceColumn": "clientid"
+          },
+          {
+            "name": "querytime",
+            "dataType": "string",
+            "sourceColumn": "querytime"
+          },
+          {
+            "name": "market",
+            "dataType": "string",
+            "sourceColumn": "market"
+          },
+          {
+            "name": "deviceplatform",
+            "dataType": "string",
+            "sourceColumn": "deviceplatform"
+          },
+          {
+            "name": "devicemake",
+            "dataType": "string",
+            "sourceColumn": "devicemake"
+          },
+          {
+            "name": "devicemodel",
+            "dataType": "string",
+            "sourceColumn": "devicemodel"
+          },
+          {
+            "name": "state",
+            "dataType": "string",
+            "sourceColumn": "state"
+          },
+          {
+            "name": "country",
+            "dataType": "string",
+            "sourceColumn": "country"
+          },
+          {
+            "name": "querydwelltime",
+            "dataType": "double",
+            "sourceColumn": "querydwelltime"
+          },
+          {
+            "name": "sessionid",
+            "dataType": "int64",
+            "sourceColumn": "sessionid"
+          },
+          {
+            "name": "sessionpagevieworder",
+            "dataType": "int64",
+            "sourceColumn": "sessionpagevieworder"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Partition",
+            "dataView": "full",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = #\"Odbc/dsn=RMA\",",
+                "    HIVE_Database = Source{[Name=\"HIVE\",Kind=\"Database\"]}[Data],",
+                "    default_Schema = HIVE_Database{[Name=\"default\",Kind=\"Schema\"]}[Data],",
+                "    hivesampletable_Table = default_Schema{[Name=\"hivesampletable\",Kind=\"Table\"]}[Data]",
+                "in",
+                "    hivesampletable_Table"
+              ]
+            }
+          }
+        ]
+      }
+    ],
+    "annotations": [
+      {
+        "name": "ClientCompatibilityLevel",
+        "value": "500"
+      }
+    ]
+  }
+}
